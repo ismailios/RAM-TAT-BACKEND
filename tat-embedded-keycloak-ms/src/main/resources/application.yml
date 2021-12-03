@@ -1,0 +1,27 @@
+server:
+  port: 8086
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tatkeycloak     
+    username: postgres
+    password: root
+    driverClassName: org.postgresql.Driver
+    hikari:
+      schema: keycloak
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.integration.envers.enabled: false
+    hibernate:
+      ddl-auto: update
+      
+keycloak:
+  server:
+    contextPath: /auth
+    adminUser:
+      username: tat-admin
+      password: pass
+    realmImportFile: application-realm.json

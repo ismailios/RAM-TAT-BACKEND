@@ -1,0 +1,14 @@
+# For Picking Jib Maven Pluging (JMP) configuration -----------------------------------------
+# JMP is a google pluging for docker image lifecycle Managment :
+# - Create docker images without the need of any local docker installation  
+# - Push directly the created images to the Docker Registry of our choice (Docker hub, ...) 
+
+container:
+  mainClass: tat.embedded.keycloak.ms.AuthorizationServerApp
+  port.tcp: 8064
+  jvm:
+    jdk.image.source: adoptopenjdk/openjdk8:jdk8u252-b09
+    flag:
+      param1: -Xms512m
+      param2: -Xdebug  
+  image.target.url.base: registry.hub.docker.com/ramitroad2021/ram

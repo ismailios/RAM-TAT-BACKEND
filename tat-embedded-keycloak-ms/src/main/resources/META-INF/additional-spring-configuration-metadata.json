@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "keycloak.server.context-path",
+  "type": "java.lang.String",
+  "description": "A description for 'keycloak.server.context-path'"
+}]}

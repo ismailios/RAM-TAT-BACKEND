@@ -1,0 +1,26 @@
+server:
+ port: 8083
+
+spring:
+
+ application:
+      name: coref
+ datasource:
+
+   driverClassName: com.mysql.jdbc.Driver
+   url: jdbc:mysql://localhost:3306/tatref
+   username: root
+   password: 
+
+ jpa:
+    database: mysql
+    database-platform : org.hibernate.dialect.MySQL5Dialect
+    generate-ddl: true
+    hibernate:
+     ddl-auto: update
+    show-sql: true
+    
+jhipster:
+  clientApp:
+    name: 'ramTatApp'    
+

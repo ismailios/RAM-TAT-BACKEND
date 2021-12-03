@@ -1,0 +1,19 @@
+
+# CONFIGSERVER MICROSERVICE : Default Setting -----------------------------------------------------
+# ********************************************************************************************
+server.port: 8012
+spring.application.name: config-server
+
+
+
+spring:
+  cloud:
+    config:
+      server.git:
+        clone-on-start: false
+        username: k.oussama
+        password: ramtatconfig
+        default.label: main
+        uri: https://gitlab.com/ram-tat1/config-server.git
+      profile: prod
+

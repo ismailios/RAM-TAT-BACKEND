@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>ma.itroad.ram.tat</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+
+	<artifactId>tat-coref-ms</artifactId>
+
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>tat-coref-ms</name>
+	<description>Microservice du referentiel</description>
+	<properties>
+		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+		<maven.version>3.3.9</maven.version>
+		<spring-cloud.version>2020.0.3</spring-cloud.version>
+		<jib-maven-plugin.version>3.1.4</jib-maven-plugin.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>ma.itroad</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>ma.itroad.security</groupId>
+			<artifactId>keycloak.adapter</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.zalando</groupId>
+			<artifactId>problem-spring-web</artifactId>
+			<version>0.23.0</version>
+		</dependency>
+
+
+
+<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-client -->
+<dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-client</artifactId>
+    <version>3.12.1.Final</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-multipart-provider -->
+<dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-multipart-provider</artifactId>
+    <version>3.12.1.Final</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jackson2-provider -->
+<dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-jackson2-provider</artifactId>
+    <version>3.12.1.Final</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jaxb-provider -->
+<dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-jaxb-provider</artifactId>
+    <version>3.12.1.Final</version>
+</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+
+	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			 <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                        <!-- This is needed when using Lombok 1.8.16 and above -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.1.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+		</plugins>
+
+	</build>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<spring.profiles.active>prod</spring.profiles.active>
+			</properties>
+
+			<build>
+				<plugins>
+					<plugin>
+
+						<groupId>com.google.cloud.tools</groupId>
+						<artifactId>jib-maven-plugin</artifactId>
+						<version>${jib-maven-plugin.version}</version>
+						<configuration>
+							<from>
+								<image>${container.jvm.jdk.image.source}</image>
+
+							</from>
+							<to>
+								<image>${container.image.target.url.base}:${project.artifactId}-${project.version}</image>
+
+							</to>
+							<container>
+								<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+								<jvmFlags>
+									<jvmFlag>${container.jvm.flag.param1}</jvmFlag>
+									<jvmFlag>${container.jvm.flag.param2}</jvmFlag>
+								</jvmFlags>
+								<mainClass>${container.mainClass}</mainClass>
+								<ports>
+									<port>${container.port.tcp}</port>
+								</ports>
+							</container>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>build</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>it.ozimov</groupId>
+						<artifactId>yaml-properties-maven-plugin</artifactId>
+						<version>1.1.3</version>
+						<executions>
+							<execution>
+								<phase>initialize</phase>
+								<goals>
+									<goal>read-project-properties</goal>
+								</goals>
+								<configuration>
+									<files>
+										<file>src/main/resources/devops/jib-mvp-config.yaml</file>
+									</files>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+
+			</build>
+		</profile>
+	</profiles>
+</project>
